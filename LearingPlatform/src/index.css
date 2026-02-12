@@ -1,0 +1,270 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  background: #f3f4f6;
+}
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(120deg, #6366f1, #9333ea);
+}
+
+.login-container form {
+  background: #ffffff;
+  padding: 35px;
+  width: 360px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-container label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.login-container select,
+.login-container input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.login-container input:focus,
+.login-container select:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.login-container button {
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #6366f1;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background: #4f46e5;
+}
+
+.login-container p {
+  color: red;
+  font-size: 13px;
+  text-align: center;
+}
+/* //Details */
+.details-container {
+  max-width: 500px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.details-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+.details-container input,
+.details-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.details-container input:focus,
+.details-container select:focus {
+  outline: none;
+  border-color: #10b981;
+}
+
+.details-container button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #10b981;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.details-container button:hover {
+  background: #059669;
+}
+/* //.admin-upload.css */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f9;
+}
+
+.admin-upload {
+  width: 420px;
+  margin: 50px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+.admin-upload h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.admin-upload h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+
+.admin-upload input[type="text"],
+.admin-upload select,
+.admin-upload input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+
+.admin-upload label {
+  margin-right: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.admin-upload input[type="radio"] {
+  margin-right: 5px;
+}
+
+
+.admin-upload button {
+  width: 100%;
+  padding: 10px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-upload button:hover {
+  background-color: #125aa3;
+}
+
+
+.admin-upload select,
+.admin-upload input[type="file"] {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 480px) {
+  .admin-upload {
+    width: 90%;
+    padding: 20px;
+  }
+}
+
+.study-details-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+
+.study-details-container h1 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+
+.study-details-container button {
+  width: 260px;
+  height: 140px;
+  margin: 15px;
+  border: none;
+  border-radius: 12px;
+  background: #f5f7fa;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
+
+
+.study-details-container button:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+
+.study-details-container button img {
+  width: 60px;
+  height: 60px;
+  margin-top: 10px;
+  object-fit: contain;
+}
+
+
+.content-area {
+  margin-top: 40px;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+
+@media (max-width: 768px) {
+  .study-details-container button {
+    width: 90%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .study-details-container button img {
+    width: 50px;
+    height: 50px;
+  }
+}
