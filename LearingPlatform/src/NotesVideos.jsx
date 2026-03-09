@@ -1,64 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { api } from "./services/api";
 import "./index.css";
 
 function NotesVideos() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const studentSubject = location.state?.student?.subject;
+  const [materials, setMaterials] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMaterials = async () => {
+      try {
+        const response = await api.getMaterials();
+        if (response.success) {
+          setMaterials(response.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch materials:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMaterials();
+  }, []);
+
+  const subjects = [
+    "Tamil", "English", "Maths", "Science", "SocialScience", 
+    "Physics", "Chemistry", "Biology", "ComputerScience"
+  ];
+
   return (
-    <div className="notes-videos-section">
-      <h1>Notes & Videos</h1>
+    <div className="notes-videos-section" style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+        <h1>Study Materials Repository</h1>
+        <button 
+          onClick={() => navigate(-1)} 
+          style={{ background: 'var(--glass-bg)', border: '1px solid var(--primary)', padding: '10px 20px' }}
+        >
+          Back to Dashboard
+        </button>
+      </div>
+      
+      {loading ? (
+        <p>Loading materials...</p>
+      ) : (
+        subjects.map(subject => (
+          <div key={subject} className="subject-section">
+            <h2>{subject}</h2>
+            <div className="material-links">
+              {materials[subject] ? (
+                <>
+                  {materials[subject].notes.length > 0 && (
+                    <div className="notes-list">
+                      <h3>Notes:</h3>
+                      {materials[subject].notes.map(note => (
+                        <a key={note.id} href={note.fileUrl} target="_blank" rel="noreferrer" className="db-link">
+                          📄 {note.fileName}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                  {materials[subject].videos.length > 0 && (
+                    <div className="videos-list">
+                      <h3>Videos:</h3>
+                      {materials[subject].videos.map(video => (
+                        <a key={video.id} href={video.fileUrl} target="_blank" rel="noreferrer" className="db-link">
+                          🎥 {video.fileName}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <p className="no-data">No materials uploaded for this subject yet.</p>
+              )}
+            </div>
+          </div>
+        ))
+      )}
 
-      <h2>
-        தமிழ்{" "}
-        <a href="https://www.scribd.com/document/680022107/tamil-notes" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://youtu.be/Nq2rrTCNmTE?feature=shared" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
-
-      <h2>
-        English{" "}
-        <a href="https://www.englishgrammar.org/" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://youtu.be/aOsILFNgtIo?feature=shared" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
-
-      <h2>
-        Maths{" "}
-        <a href="https://mathsframe.co.uk/en/resources/category/22/most-popular" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://youtu.be/9VIX-Zapk1c?feature=shared" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
-
-      <h2>
-        Science{" "}
-        <a href="https://www.sciencekids.co.nz/" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://www.youtube.com/watch?v=r96duuwVwlY" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
-
-      <h2>
-        Social{" "}
-        <a href="https://www.socialstudiesforkids.com/" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://www.youtube.com/watch?v=hTT_dXVbJ40" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
-
-      <h2>
-        Physics{" "}
-        <a href="https://www.physicsclassroom.com/" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://www.youtube.com/watch?v=ZAqIoDhornk&t=510s" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
-
-      <h2>
-        Chemistry{" "}
-        <a href="https://www.chemistryclassroom.com/" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://www.youtube.com/watch?v=5iTOphGnCtg&t=795s" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
-
-      <h2>
-        Biology{" "}
-        <a href="https://www.biologyclassroom.com/" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://www.youtube.com/watch?v=URUJD5NEXC8" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
-
-      <h2>
-        Computer Science{" "}
-        <a href="https://www.khanacademy.org/computing/computer-science" target="_blank" rel="noreferrer">Notes</a>
-        <a href="https://youtu.be/y2kg3MOk1sY?feature=shared" target="_blank" rel="noreferrer">Videos</a>
-      </h2>
+      <hr />
+      <h1>External Resources</h1>
+      <div className="external-resources">
+        <h2>Tamil <a href="https://www.scribd.com/document/680022107/tamil-notes" target="_blank">Notes</a></h2>
+        <h2>English <a href="https://www.englishgrammar.org/" target="_blank">Notes</a></h2>
+        <h2>Maths <a href="https://mathsframe.co.uk/" target="_blank">Notes</a></h2>
+      </div>
     </div>
   );
 }

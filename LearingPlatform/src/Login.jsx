@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "./services/api";
 import "./index.css";
 
 function Login() {
@@ -7,51 +8,67 @@ function Login() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const strongPassword =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    if (!email || !password) {
-      setError("All fields are required!");
-      return;
-    }
-
-    if (!strongPassword.test(password)) {
-      setError("Password not strong enough");
-      return;
-    }
-
     setError("");
+    setLoading(true);
 
-    if (role === "student") {
-      navigate("/details", { state: { role: "student" } });
-    } else {
-      navigate("/admin/upload", { state: { role: "admin" } });
+    try {
+      const data = await api.login(email, password);
+    
+      localStorage.setItem('user', JSON.stringify(data.data));
+      
+      if (data.data.role !== role) {
+        setError(`You are registered as ${data.data.role}`);
+        return;
+      }
+
+      if (data.data.role === "student") {
+        navigate("/details", { state: { user: data.data, role: data.data.role } });
+      } else {
+        navigate("/adminupload", { state: { user: data.data, role: data.data.role } });
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
       <form onSubmit={handleLogin}>
-        <label>Role</label>
+        <h2>Learning Platform Login</h2>
+        
         <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="student">Student</option>
           <option value="admin">Admin</option>
         </select>
 
-        <input type="email" placeholder="Email"
-          value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-        <input type="password" placeholder="Password"
-          value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-        {error && <p>{error}</p>}
+        {error && <p className="error">{error}</p>}
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
     </div>
   );

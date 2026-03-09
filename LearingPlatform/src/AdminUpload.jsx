@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { api } from "./services/api";
 import "./index.css";
 
 function AdminUpload() {
@@ -28,23 +29,41 @@ function AdminUpload() {
     setAdmin((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleUpload = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handleUpload = async () => {
     if (!type || !file) {
       alert("Please select upload type and file");
       return;
     }
 
-    const uploadData = {
-      adminName: admin.name,
-      language: admin.language,
-      subject: admin.subject,
-      uploadType: type,
-      fileName: file.name
-    };
+    setLoading(true);
+    setError("");
+    setSuccess(false);
 
-    localStorage.setItem("uploadedContent", JSON.stringify(uploadData));
+    try {
+      const formData = new FormData();
+      formData.append('adminName', admin.name);
+      formData.append('language', admin.language);
+      formData.append('subject', admin.subject);
+      formData.append('uploadType', type);
+      formData.append('file', file);
 
-    navigate("/admin/view");
+      const result = await api.uploadContent(formData);
+      console.log('Upload result:', result);
+      
+      setSuccess(true);
+      alert("Content uploaded successfully to MongoDB!");
+      // Optionally navigate or reset
+      navigate("/nextpage", { state: { data: result.data } });    } catch (err) {
+      console.error('Upload failed:', err);
+      setError(err.message || "Upload failed");
+      alert("Upload failed: " + (err.message || "Check console for details"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -75,7 +94,7 @@ function AdminUpload() {
         <option value="Physics">Physics</option>
         <option value="Chemistry">Chemistry</option>
         <option value="Biology">Biology</option>
-        <option value="Computer Science">Computer Science</option>
+        <option value="ComputerScience">Computer Science</option>
       </select>
 
       {admin.name && admin.language && admin.subject && (
