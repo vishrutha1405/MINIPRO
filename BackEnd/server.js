@@ -13,10 +13,7 @@ const path = require('path');
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Middleware
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'], // Vite default ports
-  credentials: true
-}));
+app.use(cors()); // Allow all origins for debugging connectivity issues
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -40,6 +37,9 @@ app.use('/api/materials', require('./routes/materialRoutes'));
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to Learning Platform API' });
 });
+
+// Ignore favicon requests
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // Error handling middleware
 app.use((err, req, res, next) => {

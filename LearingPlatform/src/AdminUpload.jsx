@@ -7,15 +7,24 @@ function AdminUpload() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Protect route
   useEffect(() => {
-    if (location.state?.role !== "admin") {
-      navigate("/");
-    }
+    const checkAuth = () => {
+      const userJson = localStorage.getItem("user");
+      const user = userJson ? JSON.parse(userJson) : null;
+      
+      
+      const role = location.state?.role || user?.role;
+      
+      if (role !== "admin") {
+        console.warn("Unauthorized access to admin page. Redirecting to login.");
+        navigate("/");
+      }
+    };
+    checkAuth();
   }, [location.state, navigate]);
 
   const [admin, setAdmin] = useState({
-    name: "",
+    name: location.state?.user?.name || JSON.parse(localStorage.getItem('user') || '{}').name || "",
     language: "",
     subject: ""
   });
@@ -56,8 +65,8 @@ function AdminUpload() {
       
       setSuccess(true);
       alert("Content uploaded successfully to MongoDB!");
-      // Optionally navigate or reset
-      navigate("/nextpage", { state: { data: result.data } });    } catch (err) {
+      navigate("/nextpage", { state: { data: result.data } });
+    } catch (err) {
       console.error('Upload failed:', err);
       setError(err.message || "Upload failed");
       alert("Upload failed: " + (err.message || "Check console for details"));
@@ -108,8 +117,6 @@ function AdminUpload() {
           </select>
         </>
       )}
-
-      {/* Upload Section */}
       {wantUpload === "yes" && (
         <>
           <h3>Upload Notes / Videos</h3>

@@ -1,10 +1,15 @@
 // frontend/src/services/api.js
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://minipro-4.onrender.com/api';
 
 // Helper function to handle responses
 const handleResponse = async (response) => {
   const data = await response.json();
   if (!response.ok) {
+    // If the database was reset (seeding), the old token will have an invalid ID
+    if (data.message === 'User not found') {
+      localStorage.removeItem('user');
+      window.location.href = '/';
+    }
     throw new Error(data.message || 'Something went wrong');
   }
   return data;

@@ -21,15 +21,11 @@ function Login() {
     
       localStorage.setItem('user', JSON.stringify(data.data));
       
-      if (data.data.role !== role) {
-        setError(`You are registered as ${data.data.role}`);
-        return;
-      }
-
-      if (data.data.role === "student") {
-        navigate("/details", { state: { user: data.data, role: data.data.role } });
+      
+      if (data.data.role === "admin") {
+        navigate("/adminupload", { state: { user: data.data, role: "admin" } });
       } else {
-        navigate("/adminupload", { state: { user: data.data, role: data.data.role } });
+        navigate("/details", { state: { user: data.data, role: "student" } });
       }
     } catch (err) {
       setError(err.message);
