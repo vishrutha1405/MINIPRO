@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: minipro-backend
+    env: node
+    rootDir: BackEnd
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_VERSION
+        value: ~18.0.0
+      - key: MONGODB_URI
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: JWT_SECRET
+        value: your_super_secret_jwt_key_here
+      - key: PORT
+        value: 5000
