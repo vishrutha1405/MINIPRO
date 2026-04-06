@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "https://minipro-backend.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://minipro-9.onrender.com";
 
 // Always add /api here because your backend uses /api/*
 const API_URL = BASE_URL.endsWith('/api') ? BASE_URL : `${BASE_URL}/api`;
