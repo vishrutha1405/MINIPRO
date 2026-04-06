@@ -1,19 +1,28 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "https://minipro-8.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://minipro-backend.onrender.com";
 
 // Always add /api here because your backend uses /api/*
 const API_URL = BASE_URL.endsWith('/api') ? BASE_URL : `${BASE_URL}/api`;
 
+console.log('📡 Using API URL:', API_URL);
+
 // Helper function to handle responses
 const handleResponse = async (response) => {
-  const data = await response.json();
+  let data;
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error('❌ Failed to parse JSON response:', e);
+    throw new Error("Server error - Failed to parse response");
+  }
 
   if (!response.ok) {
+    console.error('❌ API Error Response:', data);
     if (data.message === "User not found") {
       localStorage.removeItem("user");
       window.location.href = "/";
     }
 
-    throw new Error(data.message || "Something went wrong");
+    throw new Error(data.message || "Something went wrong on the server");
   }
 
   return data;
