@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./Login.jsx";
+import Register from "./Register.jsx";
 import Details from "./Details.jsx";
 import AdminUpload from "./AdminUpload.jsx";
 import NextPage from "./NextPage.jsx";
@@ -12,6 +13,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/details" element={<Details />} />
       <Route path="/adminupload" element={<AdminUpload />} />
       <Route path="/studydetails" element={<StudyDetails />} />

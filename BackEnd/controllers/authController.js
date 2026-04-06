@@ -32,31 +32,20 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Validate email domain
-    if (!email.toLowerCase().endsWith('@gmail.com')) {
+    // Validate email format (removed @gmail.com restriction)
+    if (!email || !email.includes('@')) {
       return res.status(400).json({ 
         success: false,
-        message: 'Email must be a @gmail.com address' 
+        message: 'Please provide a valid email address' 
       });
     }
 
-    // Validate password constraints
-    const userRole = role || 'student';
-    if (userRole === 'student') {
-      const digitRegex = /^\d{5,6}$/;
-      if (!digitRegex.test(password)) {
-        return res.status(400).json({ 
-          success: false,
-          message: 'Student password must be exactly 5 or 6 digits' 
-        });
-      }
-    } else if (userRole === 'admin') {
-      if (password !== 'admin' && password.length < 4) {
-        return res.status(400).json({ 
-          success: false,
-          message: 'Admin password must be "admin" or at least 4 characters' 
-        });
-      }
+    // Validate password constraints (allow any password >= 4 chars)
+    if (password.length < 4) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Password must be at least 4 characters long' 
+      });
     }
 
     // Create user

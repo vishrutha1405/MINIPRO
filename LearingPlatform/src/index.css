@@ -70,6 +70,7 @@ h1, h2, h3 {
   font-weight: 700;
   background: linear-gradient(to right, #fff, var(--text-muted));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 20px;
 }
@@ -300,4 +301,32 @@ hr {
   height: 1px;
   background: var(--border);
   margin: 40px 0;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 15px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.auth-link a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+  transition: var(--transition);
+}
+
+.auth-link a:hover {
+  text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  color: var(--text-main);
+}
+
+.hint-text {
+  color: var(--secondary);
+  font-size: 12px;
+  margin-bottom: 10px;
+  opacity: 0.8;
+  font-style: italic;
 }
